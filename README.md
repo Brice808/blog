@@ -16,6 +16,8 @@ Enter your credentials in DB_USERNAME and DB_PASSWORD
 
 Run php artisan key:generate
 
+Run npm install && npm run dev
+
 Run php artisan migrate
 
 Run php artisan serve
