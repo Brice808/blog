@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\{User, Contact, Post, Comment, Page };
 use Illuminate\Database\Seeder;
+use App\Models\{User, Contact, Post, Comment, Page};
 use Illuminate\Support\Facades\DB;
-
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,10 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        User::withoutEvents(function() {
-            User::factory()-> create([
+        // Users
+        User::withoutEvents(function () {
+            // Create 1 admin
+            User::factory()->create([
                 'role' => 'admin',
             ]);
             // Create 2 redactors
@@ -32,6 +31,7 @@ class DatabaseSeeder extends Seeder
 
         $nbrUsers = 6;
 
+        // Categories
         DB::table('categories')->insert([
             [
                 'title' => 'Category 1',
@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
 
         $nbrCategories = 3;
 
+        // Tags
         DB::table('tags')->insert([
             ['tag' => 'Tag1', 'slug' => 'tag1'],
             ['tag' => 'Tag2', 'slug' => 'tag2'],
@@ -60,6 +61,7 @@ class DatabaseSeeder extends Seeder
 
         $nbrTags = 6;
 
+        // Posts
         Post::withoutEvents(function () {
             foreach (range(1, 2) as $i) {
                 Post::factory()->create([
@@ -119,6 +121,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Comments
         foreach (range(1, $nbrPosts - 1) as $i) {
             Comment::factory()->create([
                 'post_id' => $i,
@@ -211,5 +214,10 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
         ]);
+        
+        //Contacts
+        Contact::withoutEvents((function () {
+            Contact::factory()->count(5)->create();
+        }));
     }
 }
