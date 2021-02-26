@@ -77,6 +77,36 @@
                             @endforeach
                         </ul>
                     </li>
+                    @guest
+                        @request('register')
+                        <li class="current">
+                            <a href="{{ request()->url() }}">@lang('Register')</a>
+                        </li>
+                        @endrequest
+                        <li {{ currentRoute('login') }}>
+                            <a href="{{ route('login') }}">@lang('Login')</a>
+                        </li>
+                        @request('forgot-password')
+                        <li class="current">
+                            <a href="{{ request()->url() }}">@lang('Password')</a>
+                        </li>
+                        @endrequest
+                        @request('reset-password/*')
+                        <li class="current">
+                            <a href="{{ request()->url() }}">@lang('Password')</a>
+                        </li>
+                        @endrequest
+                    @else
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" hidden>
+                                @csrf
+                            </form>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); this.previousElementSibling.submit();">
+                                @lang('Logout')
+                            </a>
+                        </li>
+                    @endguest
                 </ul>
 
                 <a href="#0" title="@lang('Close Menu')"
@@ -97,9 +127,8 @@
                         action="{{ Route('posts.search') }}">
                         <label>
                             <span class="h-screen-reader-text">@lang('Search for:')</span>
-                            <input id="search" type="search" class="s-header__search-field"
-                                placeholder="Search by title, author or resume..." name="search"
-                                title="@lang('Search for:')" autocomplete="off">
+                            <input id="search" type="search" name="search" class="s-header__search-field"
+                                placeholder="@lang('Search for...')" title="@lang('Search for:')" autocomplete="off">
                         </label>
                         <input type="submit" class="s-header__search-submit" value="Search">
                     </form>
@@ -148,9 +177,11 @@
                     <h5>About Our Site</h5>
 
                     <p>
-                        Ceci est un site test pour montrer mes capacités
-                        en développement web après plusieurs mois de formation.
-                        En tant que photographe amateur, vous trouverez quelques unes de mes photos sur le site !
+                        Lorem ipsum Ut velit dolor Ut labore id fugiat in ut
+                        fugiat nostrud qui in dolore commodo eu magna Duis
+                        cillum dolor officia esse mollit proident Excepteur
+                        exercitation nulla. Lorem ipsum In reprehenderit
+                        commodo aliqua irure.
                     </p>
 
                 </div> <!-- end s-footer__info -->
