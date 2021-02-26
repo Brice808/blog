@@ -22,7 +22,8 @@
                             </a>
                         @endif
                         @if (Auth::user()->name == $comment->user->name)
-                            <a href="#" class="comment-reply-link deletecomment" style="color:red">
+                            <a href="{{ route('front.comments.destroy', $comment->id) }}"
+                                class="comment-reply-link deletecomment" style="color:red">
                                 @lang('Delete')
                             </a>
                         @endif

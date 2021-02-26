@@ -32,8 +32,19 @@ class CommentController extends Controller
             return response()->json($commenter->valid ? 'ok' : 'invalid');
     }
 
-    public function destroy()
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Comment  $comment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
+        $comment->delete();
+
+        return response()->json();
     }
 
     /**
