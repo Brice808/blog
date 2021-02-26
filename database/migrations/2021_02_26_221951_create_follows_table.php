@@ -15,7 +15,8 @@ class CreateFollowsTable extends Migration
     {
         Schema::create('follows', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('href');
+            $table->string('title');
         });
     }
 
