@@ -249,4 +249,12 @@ return [
     'description' => 'A photo blog website in laravel 8',
     'author' => 'Brice Bousekkine',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Comments
+    |--------------------------------------------------------------------------
+    */
+
+    'commentsNestedLevel' => 4,
+
 ];
