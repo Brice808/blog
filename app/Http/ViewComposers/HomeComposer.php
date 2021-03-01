@@ -17,8 +17,8 @@ class HomeComposer
     {
         $view->with([
             'categories' => Category::has('posts')->get(),
-            'pages'=> Page::select('slug', 'title')->get(),
-            'follows'=>Follow::all(),
+            'pages' => Page::select('slug', 'title')->get(),
+            'follows' => Follow::all(),
         ]);
     }
 }
