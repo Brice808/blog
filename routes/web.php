@@ -51,7 +51,7 @@ Route::prefix('admin')->group(function () {
         // Dashboard
         Route::name('admin')->get('/', [AdminController::class, 'index']);
         // Purge
-        // Route::name('purge')->put('purge/{model}', [AdminController::class, 'purge']);
+        Route::name('purge')->put('purge/{model}', [AdminController::class, 'purge']);
     });
 });
 
