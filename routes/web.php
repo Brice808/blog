@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use UniSharp\LaravelFilemanager\Lfm;
+use App\Http\Controllers\Back\AdminController;
 use App\Http\Controllers\Front\{
     PostController as FrontPostController,
     CommentController as FrontCommentController,
@@ -36,5 +37,22 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::view('admin', 'back.layout');
+
+/*
+|--------------------------------------------------------------------------
+| Backend
+|--------------------------------------------------------------------------|
+*/
+
+Route::prefix('admin')->group(function () {
+
+    Route::middleware('redac')->group(function () {
+
+        // Dashboard
+        Route::name('admin')->get('/', [AdminController::class, 'index']);
+        // Purge
+        // Route::name('purge')->put('purge/{model}', [AdminController::class, 'purge']);
+    });
+});
 
 require __DIR__ . '/auth.php';

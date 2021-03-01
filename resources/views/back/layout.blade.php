@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
+    <title>AdminLTE 3 | Blog Brice Bousekkine</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -52,6 +52,42 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
 
+                        @foreach (config('menu') as $name => $elements)
+                            @if ($elements['role'] === 'redac' ||
+                                auth()
+                                    ->user()
+                                    ->isAdmin())
+                                @isset($elements['children'])
+                                    <li class="nav-item has-treeview {{ menuOpen($elements['children']) }}">
+                                        <a href="#" class="nav-link {{ currentChildActive($elements['children']) }}">
+                                            <i class="nav-icon fas fa-{{ $elements['icon'] }}"></i>
+                                            <p>
+                                                @lang($name)
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            @foreach ($elements['children'] as $child)
+                                                @if (($child['role'] === 'redac' ||
+                                                    auth()
+                                                        ->user()
+                                                        ->isAdmin()) &&
+                                                        $child['name'] !== 'fake')
+                                                    <x-back.menu-item :route="$child['route']" :sub=true>
+                                                        @lang($child['name'])
+                                                    </x-back.menu-item>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <x-back.menu-item :route="$elements['route']" :icon="$elements['icon']">
+                                        @lang($name)
+                                    </x-back.menu-item>
+                                @endisset
+                            @endif
+                        @endforeach
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -67,7 +103,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-12">
-                            <h1 class="m-0 text-dark">Titre</h1>
+                            <h1 class="m-0 text-dark">@lang($title)</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->

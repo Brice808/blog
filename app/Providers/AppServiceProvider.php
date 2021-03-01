@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Http\ViewComposers\HomeComposer;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\{View, Blade};
+use Illuminate\Support\Facades\{View, Blade, Route};
 
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('request', function ($url) {
             return request()->is($url);
+        });
+
+        View::composer('back.layout', function ($view) {
+            $title = config('titles.' . Route::currentRouteName());
+            $view->with(compact('title'));
         });
     }
 }
