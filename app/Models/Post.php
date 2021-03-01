@@ -81,4 +81,8 @@ class Post extends Model
             $query->whereValid(true);
         });
     }
+
+    protected $dispatchesEvents = [
+        'created' => ModelCreated::class,
+    ];
 }
