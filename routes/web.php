@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use UniSharp\LaravelFilemanager\Lfm;
-use App\Http\Controllers\Back\AdminController;
 use App\Http\Controllers\Front\{
     PostController as FrontPostController,
     CommentController as FrontCommentController,
     ContactController as FrontContactController,
     PageController as FrontPageController
+};
+use App\Http\Controllers\Back\{
+    AdminController,
+    PostController as BackPostController
 };
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => 'auth'], function () {
@@ -36,7 +39,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::view('admin', 'back.layout');
+require __DIR__ . '/auth.php';
+
+//Route::view('admin', 'back.layout');
 
 /*
 |--------------------------------------------------------------------------
@@ -62,5 +67,3 @@ Route::prefix('admin')->group(function () {
         Route::name('posts.indexnew')->get('newposts', [BackPostController::class, 'index']);
     });
 });
-
-require __DIR__ . '/auth.php';

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css" />
+    @yield('css')
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -54,9 +55,9 @@
 
                         @foreach (config('menu') as $name => $elements)
                             @if ($elements['role'] === 'redac' ||
-                                auth()
-                                    ->user()
-                                    ->isAdmin())
+    auth()
+        ->user()
+        ->isAdmin())
                                 @isset($elements['children'])
                                     <li class="nav-item has-treeview {{ menuOpen($elements['children']) }}">
                                         <a href="#" class="nav-link {{ currentChildActive($elements['children']) }}">
@@ -69,10 +70,10 @@
                                         <ul class="nav nav-treeview">
                                             @foreach ($elements['children'] as $child)
                                                 @if (($child['role'] === 'redac' ||
-                                                    auth()
-                                                        ->user()
-                                                        ->isAdmin()) &&
-                                                        $child['name'] !== 'fake')
+            auth()
+                ->user()
+                ->isAdmin()) &&
+        $child['name'] !== 'fake')
                                                     <x-back.menu-item :route="$child['route']" :sub=true>
                                                         @lang($child['name'])
                                                     </x-back.menu-item>
@@ -135,7 +136,9 @@
     <!-- Bootstrap 4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
+    <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
+    @yield('js')
 </body>
 
 </html>
