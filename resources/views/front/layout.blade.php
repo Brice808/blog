@@ -204,17 +204,13 @@
 
                 <div class="column large-2 medium-3 tab-6 s-footer__social-links">
 
-                    <div class="column large-2 medium-3 tab-6 s-footer__social-links">
+                    <h5>@lang('Follow Us')</h5>
 
-                        <h5>@lang('Follow Us')</h5>
-
-                        <ul>
-                            @foreach ($follows as $follow)
-                                <li><a href="{{ $follow->href }}">{{ $follow->title }}</a></li>
-                            @endforeach
-                        </ul>
-
-                    </div>
+                    <ul>
+                        @foreach ($follows as $follow)
+                            <li><a href="{{ $follow->href }}">{{ $follow->title }}</a></li>
+                        @endforeach
+                    </ul>
 
                 </div>
 
