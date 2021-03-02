@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
-use App\Models\Post;
+use App\Http\{Controllers\Controller, Requests\Back\PostRequest};
+use App\Models\{Post, Category};
 use Illuminate\Http\Request;
 use App\DataTables\PostsDataTable;
+use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {
@@ -24,9 +25,24 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {
-        //
+        $post = null;
+
+        if($id) {
+            $post = Post::findOrFail($id);
+            if($post->user_id === auth()->id()) {
+                $post->title .= ' (2) ';
+                $post->slug .='-2';
+                $post->active = false;
+            } else {
+                $post = null;
+            }
+        }
+
+        $categories = Category::all()->pluck('title', 'id');
+
+        return view('back.posts.form', compact('posts', 'categories'));
     }
 
     /**
@@ -35,9 +51,11 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request, PostRepository $repository)
     {
-        //
+        $repository->store($request);
+
+        return back()->with('ok', __('The post has been successfully created'));
     }
 
     /**

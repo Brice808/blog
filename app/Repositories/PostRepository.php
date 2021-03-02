@@ -154,4 +154,51 @@ class PostRepository
                     ->orWhere('title', 'like', "%$search%");
             })->paginate($n);
     }
+
+    /**
+     * Store post.
+     *
+     * @param  \App\Http\Requests\PostRequest  $request
+     * @return void
+     */
+    public function store($request)
+    {
+        $request->merge([
+            'active' => $request->has('active'),
+            'image' => basename($request->image),
+        ]);
+
+        $post = $request->user()->posts()->create($request->all());
+
+        $this->saveCategoriesAndTags($post, $request);
+    }
+
+    /**
+     * Save categories and tags.
+     *
+     * @param  \App\Models\Post  $post
+     * @param  \App\Http\Requests\PostRequest  $request
+     * @return void
+     */
+    protected function saveCategoriesAndTags($post, $request)
+    {
+        // Categorie
+        $post->categories()->sync($request->categories);
+
+        // Tags
+        $tags_id = [];
+
+        if ($request->tags) {
+            $tags = explode(',', $request->tags);
+            foreach ($tags as $tag) {
+                $tag_ref = Tag::firstOrCreate([
+                    'tag' => ucfirst($tag),
+                    'slug' => Str::slug($tag),
+                ]);
+                $tags_id[] = $tag_ref->id;
+            }
+        }
+
+        $post->tags()->sync($tags_id);
+    }
 }

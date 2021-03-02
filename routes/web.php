@@ -65,5 +65,7 @@ Route::prefix('admin')->group(function () {
 
         // Posts
         Route::name('posts.indexnew')->get('newposts', [BackPostController::class, 'index']);
+        Route::resource('posts', BackPostController::class)->except(['show', 'create']);
+        Route::name('posts.create')->get('posts/create/{id?}', [BackPostController::class, 'create']);
     });
 });
