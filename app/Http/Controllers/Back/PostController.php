@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Http\{Controllers\Controller, Requests\Back\PostRequest};
-use App\Models\{Post, Category};
-use Illuminate\Http\Request;
-use App\DataTables\PostsDataTable;
+use App\Http\{
+    Controllers\Controller,
+    Requests\Back\PostRequest
+};
 use App\Repositories\PostRepository;
+use App\Models\{Post, Category};
+use App\DataTables\PostsDataTable;
 
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the posts.
      *
+     * @param  \App\DataTables\PostsDataTable  $dataTable
      * @return \Illuminate\Http\Response
      */
     public function index(PostsDataTable $dataTable)
@@ -21,19 +24,20 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new post.
      *
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function create($id = null)
     {
         $post = null;
 
-        if($id) {
+        if ($id) {
             $post = Post::findOrFail($id);
-            if($post->user_id === auth()->id()) {
-                $post->title .= ' (2) ';
-                $post->slug .='-2';
+            if ($post->user_id === auth()->id()) {
+                $post->title .= ' (2)';
+                $post->slug .= '-2';
                 $post->active = false;
             } else {
                 $post = null;
@@ -42,13 +46,14 @@ class PostController extends Controller
 
         $categories = Category::all()->pluck('title', 'id');
 
-        return view('back.posts.form', compact('posts', 'categories'));
+        return view('back.posts.form', compact('post', 'categories'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created post in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Back\PostRequest  $request
+     * @param  \App\Repositories\PostRepository $request
      * @return \Illuminate\Http\Response
      */
     public function store(PostRequest $request, PostRepository $repository)
@@ -56,17 +61,6 @@ class PostController extends Controller
         $repository->store($request);
 
         return back()->with('ok', __('The post has been successfully created'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
     }
 
     /**

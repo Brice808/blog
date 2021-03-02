@@ -12,7 +12,7 @@ class Tag extends Model
      *
      * @var array
      */
-    protected  $fillable = ['tag'];
+    protected  $fillable = ['tag', 'slug'];
     public $timestamps = false;
 
     public function posts(){
