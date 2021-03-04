@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
-{
+class Tag extends Model {
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected  $fillable = ['tag', 'slug'];
-    public $timestamps = false;
+    protected $fillable = ['tag', 'slug'];
 
-    public function posts(){
-        return $this->belongsToMany(Post::class);
-    }
+    public $timestamps = false;
 }

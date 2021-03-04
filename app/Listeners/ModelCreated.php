@@ -18,3 +18,4 @@ class ModelCreated
         $event->model->notify(new ModelCreatedNotification);
     }
 }
+

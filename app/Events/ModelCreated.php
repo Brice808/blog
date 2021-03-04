@@ -2,11 +2,10 @@
 
 namespace App\Events;
 
-use Illuminate\{
+use Illuminate\ {
     Queue\SerializesModels,
     Database\Eloquent\Model,
-    Foundation\Events\Dispatchable,
-    Broadcasting\PrivateChannel
+    Foundation\Events\Dispatchable
 };
 
 class ModelCreated
@@ -14,23 +13,14 @@ class ModelCreated
     use Dispatchable, SerializesModels;
 
     public $model;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Model $model
      */
     public function __construct(Model $model)
     {
         $this->model = $model;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\{Comment, User};
+use App\Models\{ Comment, User};
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CommentPolicy

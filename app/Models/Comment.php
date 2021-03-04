@@ -2,20 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Kalnoy\Nestedset\NodeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use App\Events\ModelCreated;
 
 class Comment extends Model
 {
-    use HasFactory, NodeTrait, Notifiable;
+    use NodeTrait, HasFactory, Notifiable;
 
-    protected  $fillable = [
-        'body',
-        'post_id',
-        'user_id',
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ModelCreated::class,
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'body', 
+        'post_id', 
+        'user_id', 
     ];
 
     /**
@@ -37,8 +51,4 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
-
-    protected $dispatchesEvents = [
-        'created' => ModelCreated::class,
-    ];
 }

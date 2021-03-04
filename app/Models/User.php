@@ -13,6 +13,15 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ModelCreated::class,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -21,8 +30,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'roles',
-        'valid'
+        'role', 
+        'valid',
     ];
 
     /**
@@ -64,12 +73,13 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Determine if user is administrator
+     *
+     * @return boolean
+     */
     public function isAdmin()
     {
         return $this->role === 'admin';
     }
-
-    protected $dispatchesEvents = [
-        'created' => ModelCreated::class,
-    ];
 }

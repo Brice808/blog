@@ -36,7 +36,7 @@
             {{-- Next Page Link --}}
             <li>
                 @if ($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}" class="pgn__next" rel="next">@lang('Next')</a>
+                    <a href="{{ $paginator->nextPageUrl() }}"  class="pgn__next" rel="next">@lang('Next')</a>
                 @else
                     <span class="pgn__next inactive">@lang('Next')</span>
                 @endif

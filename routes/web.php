@@ -10,7 +10,9 @@ use App\Http\Controllers\Front\{
 };
 use App\Http\Controllers\Back\{
     AdminController,
-    PostController as BackPostController
+    PostController as BackPostController,
+    ResourceController as BackResourceController,
+    UserController as BackUserController,
 };
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => 'auth'], function () {
@@ -58,14 +60,18 @@ Route::prefix('admin')->group(function () {
         // Purge
         Route::name('purge')->put('purge/{model}', [AdminController::class, 'purge']);
         // Posts
-        Route::resource('posts', BackPostController::class)->except('show');
+        Route::resource('posts', BackPostController::class)->except(['show', 'create']);
+        Route::name('posts.create')->get('posts/create/{id?}', [BackPostController::class, 'create']);
     });
 
     Route::middleware('admin')->group(function () {
 
         // Posts
         Route::name('posts.indexnew')->get('newposts', [BackPostController::class, 'index']);
-        Route::resource('posts', BackPostController::class)->except(['show', 'create']);
-        Route::name('posts.create')->get('posts/create/{id?}', [BackPostController::class, 'create']);
+        // Categories
+        Route::resource('categories', BackResourceController::class)->except(['show']);
+        // Users
+        Route::resource('users', BackUserController::class)->except(['show', 'create', 'store']);
+        Route::name('users.indexnew')->get('newusers', [BackResourceController::class, 'index']);
     });
 });

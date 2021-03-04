@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Front;
-
 use App\Repositories\PostRepository;
 use App\Http\Controllers\Controller;
+use App\Models\{ Category, User, Tag };
 use App\Http\Requests\Front\SearchRequest;
-use App\Models\{Category, User, Tag};
-
 
 use Illuminate\Http\Request;
 
@@ -31,7 +29,7 @@ class PostController extends Controller
      *
      * @param  \App\Repositories\PostRepository $postRepository
      * @return void
-     */
+    */
     public function __construct(PostRepository $postRepository)
     {
         $this->postRepository = $postRepository;
@@ -51,17 +49,31 @@ class PostController extends Controller
         return view('front.index', compact('posts', 'heros'));
     }
 
+    /**
+     * Display the specified post by slug.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $slug
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $slug)
     {
         $post = $this->postRepository->getPostBySlug($slug);
-
+ 
         return view('front.post', compact('post'));
     }
 
+    /**
+     * Display a listing of the posts for the specified category.
+     *
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
     public function category(Category $category)
     {
         $posts = $this->postRepository->getActiveOrderByDateForCategory($this->nbrPages, $category->slug);
         $title = __('Posts for category ') . '<strong>' . $category->title . '</strong>';
+
         return view('front.index', compact('posts', 'title'));
     }
 
@@ -93,6 +105,12 @@ class PostController extends Controller
         return view('front.index', compact('posts', 'title'));
     }
 
+    /**
+     * Get posts with search
+     *
+     * @param  \App\Http\Requests\SearchRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(SearchRequest $request)
     {
         $search = $request->search;

@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -246,8 +246,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'description' => 'A photo blog website in laravel 8',
-    'author' => 'Brice Bousekkine',
+    'description' => 'The best blog in the world',
+    'author' => 'The best author',
 
     /*
     |--------------------------------------------------------------------------

@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        ModelCreated::class =>[
+        ModelCreated::class => [
             ModelCreatedListener::class,
         ],
     ];

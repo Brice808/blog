@@ -7,11 +7,21 @@ use App\Http\{
     Requests\Back\PostRequest
 };
 use App\Repositories\PostRepository;
-use App\Models\{Post, Category};
+use App\Models\{ Post, Category };
 use App\DataTables\PostsDataTable;
 
 class PostController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     /**
      * Display a listing of the posts.
      *
@@ -31,19 +41,19 @@ class PostController extends Controller
      */
     public function create($id = null)
     {
-        $post = null;
+        $post = null; 
 
-        if ($id) {
+        if($id) {
             $post = Post::findOrFail($id);
-            if ($post->user_id === auth()->id()) {
+            if($post->user_id === auth()->id()) {
                 $post->title .= ' (2)';
-                $post->slug .= '-2';
+                $post->slug .='-2';
                 $post->active = false;
             } else {
                 $post = null;
-            }
+            } 
         }
-
+        
         $categories = Category::all()->pluck('title', 'id');
 
         return view('back.posts.form', compact('post', 'categories'));
@@ -64,26 +74,31 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified post.
      *
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all()->pluck('title', 'id');
+
+        return view('back.posts.form', compact('post', 'categories'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified post in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Back\PostRequest  $request
+     * @param  \App\Repositories\PostRepository $repository
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, PostRepository $repository, Post $post)
     {
-        //
+        $repository->update($post, $request);
+
+        return back()->with('ok', __('The post has been successfully updated'));
     }
 
     /**
@@ -94,6 +109,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return response()->json();
     }
 }

@@ -26,6 +26,7 @@ class PostRequest extends FormRequest
     {
         $regex = '/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/';
         $id = $this->post ? ',' . $this->post->id : '';
+
         return $rules = [
             'title' => 'required|max:255',
             'body' => 'required|max:65000',

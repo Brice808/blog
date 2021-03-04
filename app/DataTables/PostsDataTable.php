@@ -33,45 +33,45 @@ class PostsDataTable extends DataTable
             ->editColumn('action', function ($post) {
 
                 $buttons = $this->button(
-                    'posts.display',
-                    $post->slug,
-                    'success',
-                    __('Show'),
-                    'eye',
-                    '',
-                    '_blank'
-                );
+                              'posts.display', 
+                              $post->slug, 
+                              'success', 
+                              __('Show'), 
+                              'eye', 
+                              '',
+                              '_blank'
+                          );
 
-                if (Route::currentRouteName() === 'posts.indexnew') {
+                if(Route::currentRouteName() === 'posts.indexnew') {
                     return $buttons;
                 }
 
                 $buttons .= $this->button(
-                    'posts.edit',
-                    $post->id,
-                    'warning',
-                    __('Edit'),
+                    'posts.edit', 
+                    $post->id, 
+                    'warning', 
+                    __('Edit'), 
                     'edit'
                 );
 
-                if ($post->user_id === auth()->id()) {
+                if($post->user_id === auth()->id()) {
                     $buttons .= $this->button(
-                        'posts.create',
-                        $post->id,
-                        'info',
-                        __('Clone'),
+                        'posts.create', 
+                        $post->id, 
+                        'info', 
+                        __('Clone'), 
                         'clone'
                     );
                 }
-
+                
                 return $buttons . $this->button(
-                    'posts.destroy',
-                    $post->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this post?')
-                );
+                          'posts.destroy', 
+                          $post->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this post?')
+                      );
             })
             ->rawColumns(['categories', 'comments_count', 'action', 'created_at']);
     }
@@ -86,24 +86,22 @@ class PostsDataTable extends DataTable
     {
         $query = isRole('redac') ? auth()->user()->posts() : $post->newQuery();
 
-        if (Route::currentRouteNamed('posts.indexnew')) {
+        if(Route::currentRouteNamed('posts.indexnew')) {
             $query->has('unreadNotifications');
         }
 
         return $query->select(
-            'posts.id',
-            'slug',
-            'title',
-            'active',
-            'posts.created_at',
-            'posts.updated_at',
-            'user_id'
-        )
-            ->with(
-                'user:id,name',
-                'categories:title'
-            )
-            ->withCount('comments');
+                      'posts.id',
+                      'slug',
+                      'title',
+                      'active',
+                      'posts.created_at',
+                      'posts.updated_at',
+                      'user_id')
+                    ->with(
+                      'user:id,name',
+                      'categories:title')
+                    ->withCount('comments');
     }
 
     /**
@@ -114,11 +112,11 @@ class PostsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('posts-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('posts-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**
@@ -131,16 +129,14 @@ class PostsDataTable extends DataTable
         $columns = [
             Column::make('title')->title(__('Title'))
         ];
-
-        if (auth()->user()->role === 'admin') {
-            array_push(
-                $columns,
+      
+        if(auth()->user()->role === 'admin') {
+            array_push($columns, 
                 Column::make('user.name')->title(__('Author'))
             );
         }
 
-        array_push(
-            $columns,
+        array_push($columns,
             Column::computed('categories')->title(__('Categories')),
             Column::computed('comments_count')->title(__('Comments'))->addClass('text-center align-middle'),
             Column::make('created_at')->title(__('Date')),
@@ -169,7 +165,7 @@ class PostsDataTable extends DataTable
      */
     protected function getDate($post)
     {
-        if (!$post->active) {
+        if(!$post->active) {
             return $this->badge('Not published', 'warning');
         }
 
@@ -191,7 +187,7 @@ class PostsDataTable extends DataTable
     {
         $html = '';
 
-        foreach ($post->categories as $category) {
+        foreach($post->categories as $category) {
             $html .= $category->title . '<br>';
         }
 
