@@ -79,10 +79,12 @@ Route::prefix('admin')->group(function () {
         // Users
         Route::resource('users', BackUserController::class)->except(['show', 'create', 'store']);
         Route::name('users.indexnew')->get('newusers', [BackResourceController::class, 'index']);
-        //Contacts
+        // Contacts
         Route::resource('contacts', BackResourceController::class)->only(['index', 'destroy']);
         Route::name('contacts.indexnew')->get('newcontacts', [BackResourceController::class, 'index']);
-        //Follows
-        Route::resource('follows', BackResourceController::class)->except((['show']));
+        // Follows
+        Route::resource('follows', BackResourceController::class)->except(['show']);
+        // Pages
+        Route::resource('pages', BackResourceController::class)->except(['show']);
     });
 });
