@@ -21,30 +21,30 @@ class CommentsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('user', function ($comment) {
+            ->editColumn('user', function($comment) {
                 return $comment->user->name;
             })
-            ->editColumn('approval', function ($comment) {
-                if ($comment->user->valid) {
+            ->editColumn('approval', function($comment) {
+                if($comment->user->valid) {
                     return $this->button(
-                        'users.unvalid',
-                        $comment->user->id,
-                        'warning',
-                        __('Disapprove'),
-                        'thumbs-down',
-                        'valid'
-                    );
-                }
+                              'users.unvalid', 
+                              $comment->user->id, 
+                              'warning', 
+                              __('Disapprove'), 
+                              'thumbs-down',
+                              'valid'
+                          );
+                } 
                 return $this->button(
-                    'users.valid',
-                    $comment->user->id,
-                    'success',
-                    __('Approve'),
-                    'thumbs-up',
-                    'valid'
-                );
+                          'users.valid', 
+                          $comment->user->id, 
+                          'success', 
+                          __('Approve'), 
+                          'thumbs-up',
+                          'valid'
+                      );
             })
-            ->editColumn('post', function ($comment) {
+            ->editColumn('post', function($comment) {
                 return '<a href="' . route('posts.display', $comment->post->slug) . '" target="_blank">' .  $comment->post->title . '</a>';
             })
             ->editColumn('created_at', function ($comment) {
@@ -52,21 +52,21 @@ class CommentsDataTable extends DataTable
             })
             ->editColumn('action', function ($comment) {
                 return $this->button(
-                    'comments.edit',
-                    $comment->id,
-                    'warning',
-                    __('Edit'),
-                    'edit'
-                ) .  $this->button(
-                    'comments.destroy',
-                    $comment->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this comment?')
-                );
+                          'comments.edit', 
+                          $comment->id, 
+                          'warning', 
+                          __('Edit'), 
+                          'edit'
+                      ).  $this->button(
+                          'comments.destroy', 
+                          $comment->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this comment?')
+                      );
             })
-            ->rawColumns(['approval', 'created_at', 'post', 'action'])
+            ->rawColumns(['approval','created_at', 'post', 'action'])
             ->setRowClass(function ($comment) {
                 return $comment->user->valid ? '' : 'alert-warning';
             });
@@ -81,13 +81,13 @@ class CommentsDataTable extends DataTable
     public function query(Comment $comment)
     {
         // Show only redactor posts comments
-        $query = isRole('redac') ?
+        $query = isRole('redac') ? 
             $comment->whereHas('post.user', function ($query) {
                 $query->where('users.id', auth()->id());
-            }) :
+            }) : 
             $comment->newQuery();
 
-        if (Route::currentRouteNamed('comments.indexnew')) {
+        if(Route::currentRouteNamed('comments.indexnew')) {
             $query->has('unreadNotifications');
         }
 
@@ -102,11 +102,11 @@ class CommentsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('comments-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('comments-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**

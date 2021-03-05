@@ -15,7 +15,7 @@ class UserController extends ResourceController
      * @param App\Http\Requests\Back\UserRequest  $request
      * @param  integer $id
      * @return \Illuminate\Http\Response
-     */
+    */
     public function update($id)
     {
         $request = app()->make(UserRequest::class);

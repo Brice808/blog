@@ -22,19 +22,19 @@ class FollowsDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('action', function ($follow) {
                 return $this->button(
-                    'follows.edit',
-                    $follow->id,
-                    'warning',
-                    __('Edit'),
-                    'edit'
-                ) . $this->button(
-                    'follows.destroy',
-                    $follow->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this link?')
-                );
+                          'follows.edit', 
+                          $follow->id, 
+                          'warning', 
+                          __('Edit'), 
+                          'edit'
+                      ). $this->button(
+                          'follows.destroy', 
+                          $follow->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this link?')
+                      );
             })
             ->rawColumns(['action']);
     }
@@ -58,11 +58,11 @@ class FollowsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('follows-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('follows-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**

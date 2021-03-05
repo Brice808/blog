@@ -48,7 +48,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 //Route::view('admin', 'back.layout');
 
@@ -61,7 +61,7 @@ require __DIR__ . '/auth.php';
 Route::prefix('admin')->group(function () {
 
     Route::middleware('redac')->group(function () {
-
+  
         // Dashboard
         Route::name('admin')->get('/', [AdminController::class, 'index']);
         // Purge
@@ -74,11 +74,11 @@ Route::prefix('admin')->group(function () {
         Route::name('users.unvalid')->put('unvalid/{user}', [BackUserController::class, 'unvalid']);
         // Comments
         Route::resource('comments', BackResourceController::class)->except(['show', 'create', 'store']);
-        Route::name('comments.indexnew')->get('newcomments', [BackResourceController::class, 'index']);
+        Route::name('comments.indexnew')->get('newcomments', [BackResourceController::class, 'index']); 
     });
 
     Route::middleware('admin')->group(function () {
-
+        
         // Posts
         Route::name('posts.indexnew')->get('newposts', [BackPostController::class, 'index']);
         // Categories

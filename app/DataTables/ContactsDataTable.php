@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\{Contact, User};
+use App\Models\{ Contact, User };
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Support\Facades\Route;
@@ -32,13 +32,13 @@ class ContactsDataTable extends DataTable
             })
             ->editColumn('action', function ($contact) {
                 return $this->button(
-                    'contacts.destroy',
-                    $contact->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this contact?')
-                );
+                          'contacts.destroy', 
+                          $contact->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this contact?')
+                      );
             })
             ->rawColumns(['name', 'email', 'action']);
     }
@@ -53,7 +53,7 @@ class ContactsDataTable extends DataTable
     {
         $query = $contact->newQuery();
 
-        if (Route::currentRouteNamed('contacts.indexnew')) {
+        if(Route::currentRouteNamed('contacts.indexnew')) {
             $query->has('unreadNotifications');
         }
         return $query;
@@ -67,11 +67,11 @@ class ContactsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('contacts-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('contacts-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**

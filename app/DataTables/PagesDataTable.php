@@ -22,27 +22,27 @@ class PagesDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('action', function ($page) {
                 return $this->button(
-                    'page',
-                    $page->slug,
-                    'success',
-                    __('Show'),
-                    'eye',
-                    '',
-                    '_blank'
-                ) . $this->button(
-                    'pages.edit',
-                    $page->id,
-                    'warning',
-                    __('Edit'),
-                    'edit'
-                ) . $this->button(
-                    'pages.destroy',
-                    $page->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this page?')
-                );
+                          'page', 
+                          $page->slug, 
+                          'success', 
+                          __('Show'), 
+                          'eye', 
+                          '',
+                          '_blank'
+                      ). $this->button(
+                          'pages.edit', 
+                          $page->id, 
+                          'warning', 
+                          __('Edit'), 
+                          'edit'
+                      ). $this->button(
+                          'pages.destroy', 
+                          $page->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this page?')
+                      );
             })
             ->rawColumns(['action']);
     }
@@ -66,11 +66,11 @@ class PagesDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('pages-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('pages-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**

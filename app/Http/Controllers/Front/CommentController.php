@@ -22,7 +22,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CommentRequest $request, Post $post)
-    {
+    {        
         $data = [
             'body' => $request->message,
             'post_id' => $post->id,

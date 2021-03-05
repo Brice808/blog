@@ -32,19 +32,19 @@ class UsersDataTable extends DataTable
             })
             ->addColumn('action', function ($user) {
                 return $this->button(
-                    'users.edit',
-                    $user->id,
-                    'warning',
-                    __('Edit'),
-                    'edit'
-                ) . $this->button(
-                    'users.destroy',
-                    $user->id,
-                    'danger',
-                    __('Delete'),
-                    'trash-alt',
-                    __('Really delete this user?')
-                );
+                          'users.edit', 
+                          $user->id, 
+                          'warning', 
+                          __('Edit'), 
+                          'edit'
+                      ). $this->button(
+                          'users.destroy', 
+                          $user->id, 
+                          'danger', 
+                          __('Delete'), 
+                          'trash-alt', 
+                          __('Really delete this user?')
+                      );
             })
             ->rawColumns(['valid', 'action']);
     }
@@ -57,7 +57,7 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model)
     {
-        if (Route::currentRouteNamed('users.indexnew')) {
+        if(Route::currentRouteNamed('users.indexnew')) {
             return $model->has('unreadNotifications');
         }
 
@@ -72,11 +72,11 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('users-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Blfrtip')
-            ->lengthMenu();
+                    ->setTableId('users-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Blfrtip')
+                    ->lengthMenu();
     }
 
     /**
@@ -92,7 +92,7 @@ class UsersDataTable extends DataTable
             Column::make('role')->title(__('Role')),
             Column::make('created_at')->title('Creation'),
             Column::make('updated_at')->title('Modification'),
-            Column::make('valid')->title(__('Valid'))->addClass('align-middle text-center'),
+            Column::make('valid')->title(__('Valid'))->addClass('align-middle text-center'),            
             Column::computed('action')->title(__('Action'))->addClass('align-middle text-center'),
         ];
     }

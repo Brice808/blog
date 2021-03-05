@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+    */
     public function update(Request $request)
     {
         $values = $request->only(['name', 'email']);
@@ -64,7 +64,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . $request->user()->id,
         ];
 
-        if ($request->password) {
+        if($request->password) {
             $rules['password'] = 'string|confirmed|min:8';
             $values['password'] =  Hash::make($request->password);
         }
@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
         $request->validate($rules);
 
         $request->user()->update($values);
-
+      
         return back()->with('status', __('You have been successfully updated.'));
     }
 }
