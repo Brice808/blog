@@ -3,16 +3,14 @@
 namespace App\DataTables;
 
 use App\Models\Comment;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Support\Facades\Route;
 
 class CommentsDataTable extends DataTable
 {
     use DataTableTrait;
+
     /**
      * Build DataTable class.
      *
@@ -84,13 +82,15 @@ class CommentsDataTable extends DataTable
     {
         // Show only redactor posts comments
         $query = isRole('redac') ?
-        $comment->whereHas('post.user', function ($query) {
-            $query->where('users.id', auth()->id());
-        }) :
+            $comment->whereHas('post.user', function ($query) {
+                $query->where('users.id', auth()->id());
+            }) :
             $comment->newQuery();
+
         if (Route::currentRouteNamed('comments.indexnew')) {
             $query->has('unreadNotifications');
         }
+
         return $query->with('user:id,name,valid', 'post:id,title,slug');
     }
 
