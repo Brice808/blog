@@ -24,6 +24,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => 'auth'], functi
 Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::view('profile', 'auth.profile');
     Route::name('profile')->put('profile', [RegisteredUserController::class, 'update']);
+    Route::name('deleteAccount')->delete('profile/delete', [RegisteredUser::class], 'destroy');
 });
 
 // Home
@@ -61,7 +62,7 @@ require __DIR__.'/auth.php';
 Route::prefix('admin')->group(function () {
 
     Route::middleware('redac')->group(function () {
-  
+
         // Dashboard
         Route::name('admin')->get('/', [AdminController::class, 'index']);
         // Purge
@@ -74,11 +75,11 @@ Route::prefix('admin')->group(function () {
         Route::name('users.unvalid')->put('unvalid/{user}', [BackUserController::class, 'unvalid']);
         // Comments
         Route::resource('comments', BackResourceController::class)->except(['show', 'create', 'store']);
-        Route::name('comments.indexnew')->get('newcomments', [BackResourceController::class, 'index']); 
+        Route::name('comments.indexnew')->get('newcomments', [BackResourceController::class, 'index']);
     });
 
     Route::middleware('admin')->group(function () {
-        
+
         // Posts
         Route::name('posts.indexnew')->get('newposts', [BackPostController::class, 'index']);
         // Categories

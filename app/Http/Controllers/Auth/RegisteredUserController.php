@@ -72,7 +72,14 @@ class RegisteredUserController extends Controller
         $request->validate($rules);
 
         $request->user()->update($values);
-      
+
         return back()->with('status', __('You have been successfully updated.'));
+    }
+
+    //delete user account
+    public function destroy(Request $request) {
+        $request->user()->delete();
+
+        return response()->json();
     }
 }
