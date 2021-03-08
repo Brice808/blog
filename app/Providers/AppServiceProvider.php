@@ -37,5 +37,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('request', function ($url) {
             return request()->is($url);
         });
+
+        if (env('APP_ENV') !== 'local') {
+            $this->app['request']->server->set('HTTPS', true);
+        }
+
+        Schema::defaultStringLength(191);
     }
 }
