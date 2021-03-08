@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\HomeComposer;
-use Illuminate\Support\Facades\{ Blade, View, Route };
+use Illuminate\Support\Facades\{ Blade, View, Route, Schema};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Schema::defaultStringLength(191);
     }
 
     /**
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         setlocale(LC_TIME, config('app.locale'));
-        
+
         View::composer(['front.layout', 'front.index'], HomeComposer::class);
 
         View::composer('back.layout', function ($view) {
